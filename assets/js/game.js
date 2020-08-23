@@ -68,8 +68,15 @@ var endGame = function () {
 }
 
 var fight = function (enemy) {
+  // keep track of who goes first
+  var isPlayerTurn = true;
+  // randomly change turn order
+  if (Math.random() > 0.5) {
+    isPlayerTurn = false;
+  }
   // repeat and execute as long as the enemy robot is alive 
   while (playerInfo.health > 0 && enemy.health > 0) {
+    if (isPlayerTurn) {
     // ask user if they'd like to fight or skip using fightOrSkip function
     if (fightOrSkip()) {
       // if true, leave fight by breaking loop
@@ -77,6 +84,7 @@ var fight = function (enemy) {
     }
     var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
 
+    // remove enemy's health by subtracting the amount we set in the damage var
     enemy.health = Math.max(0, enemy.health - damage);
     console.log(
       playerInfo.name + ' attacked ' + enemy.name + '. ' + enemy.name + ' now has ' + enemy.health + ' health remaining.'
@@ -94,10 +102,12 @@ var fight = function (enemy) {
     } else {
       window.alert(enemy.name + ' still has ' + enemy.health + ' health left.');
     }
-
+    // player gets attacked first
+    } else {
     // remove players's health by subtracting the amount set in the enemy.attack variable
     var damage = randomNumber(enemy.attack - 3, enemy.attack);
 
+    // remove enemy health by subtracting the amount set in the damage var
     playerInfo.health = Math.max(0, playerInfo.health - damage);
     console.log(
       enemy.name + ' attacked ' + playerInfo.name + '. ' + playerInfo.name + ' now has ' + playerInfo.health + ' health remaining.'
@@ -108,20 +118,21 @@ var fight = function (enemy) {
       window.alert(playerInfo.name + ' has died!');
       // leave while() loop if player is dead
       break;
-    }
-    else {
+    }else {
       window.alert(playerInfo.name + ' still has ' + playerInfo.health + ' health left.');
     }
   }
-}
+  // switch turn order for next round
+  isPlayerTurn = !isPlayerTurn;
+  }
+};
 
 var shop = function () {
   // ask player what they'd like to do
   var shopOptionPrompt = window.prompt(
     "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one 1 for REFILL, 2 for UPGRADE, or 3 for LEAVE." 
-    shopOptionPrompt = parseInt(shopOptionPrompt);
     );
-   
+    shopOptionPrompt = parseInt(shopOptionPrompt);
   // use switch to carry out action
   switch (shopOptionPrompt) {
     case 1:
