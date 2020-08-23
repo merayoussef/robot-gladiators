@@ -9,7 +9,7 @@ var randomNumber = function (min, max) {
 
 var fight = function (enemy) {
   // repeat and execute as long as the enemy robot is alive 
-  while (playerInfo.Health > 0 && enemy.health > 0) {
+  while (playerInfo.health > 0 && enemy.health > 0) {
     // ask player if they'd like to fight or run
     var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
     // if player choses to "skip" confirm and then stop the loop
@@ -52,19 +52,19 @@ var fight = function (enemy) {
       // remove players's health by subtracting the amount set in the enemy.attack variable
       var damage = randomNumber(enemy.attack - 3, enemy.attack);
 
-      playerInfo.Health = Math.max(0, playerInfo.Health - damage);
+      playerInfo.health = Math.max(0, playerInfo.health - damage);
       console.log(
-        enemy.name + ' attacked ' + playerInfo.name + '. ' + playerInfo.name + ' now has ' + playerInfo.Health + ' health remaining.'
+        enemy.name + ' attacked ' + playerInfo.name + '. ' + playerInfo.name + ' now has ' + playerInfo.health + ' health remaining.'
       );
 
       // check player's health
-      if (playerInfo.Health <= 0) {
+      if (playerInfo.health <= 0) {
         window.alert(playerInfo.name + ' has died!');
         // leave while() loop if player is dead
         break;
       }
       else {
-        window.alert(playerInfo.name + ' still has ' + playerInfo.Health + ' health left.');
+        window.alert(playerInfo.name + ' still has ' + playerInfo.health + ' health left.');
       }
     }
   }
@@ -72,13 +72,13 @@ var fight = function (enemy) {
   // function to start a new game 
   var startGame = function () {
     // reset player stats
-      playerInfo.reset();
+    playerInfo.reset();
 
-      for (var i = 0; i < enemyInfo.length; i++) {
-      if (playerInfo.Health > 0) {
+    for (var i = 0; i < enemyInfo.length; i++) {
+      if (playerInfo.health > 0) {
         // let user know what round they are in, remember that arrays start at 0 so it needs to have 1 added to it
-        window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
-
+        window.alert("Welcome to Battlebots! Round " + (i + 1));
+    
         // pick new enemy to fight based on the index of the enemyNames array
         var pickedEnemyObj = enemyInfo[i];
 
@@ -89,7 +89,7 @@ var fight = function (enemy) {
         fight(pickedEnemyObj);
 
         // if player is still alive and we're not at the last enemy in the array
-        if (playerInfo.Health > 0 && i < enemyInfo.length - 1) {
+        if (playerInfo.health > 0 && i < enemyInfo.length - 1) {
           // ask if user wants to use the store before next round
           var storeConfirm = window.confirm("The fight is over, visit the store before the next round?");
 
@@ -100,7 +100,6 @@ var fight = function (enemy) {
         }
 
       }
-
       else {
         window.alert("You have lost your robot in battle! Game Over!");
         break;
@@ -113,7 +112,7 @@ var fight = function (enemy) {
   // function to end the entire game
   var endGame = function () {
     // if player is still alive, player wins!
-    if (playerInfo.Health > 0) {
+    if (playerInfo.health > 0) {
       window.alert("Great job, you've survived the game! You now have a score of " + playerInfo.money + ".");
     }
     else {
@@ -158,8 +157,21 @@ var fight = function (enemy) {
     }
   };
 
+
+  var getPlayerName = function() {
+    var name = "";
+   
+    while (name === "" || name === null) {
+      name = prompt("What is your robot's name?");
+    }
+    return name;
+  }
+
+   
+
+/* game info / variables */
   var playerInfo = {
-    name: window.prompt("What is your robot's name?"),
+    name: getPlayerName(),
     health: 100,
     attack: 10,
     money: 10,
@@ -167,7 +179,8 @@ var fight = function (enemy) {
       this.health = 100;
       this.money = 10;
       this.attack = 10;
-    }, // comma!
+    },
+    
     refillHealth: function() {
       if (this.money >= 7) {
         window.alert("Refilling player's health by 20 for 7 dollars.");
