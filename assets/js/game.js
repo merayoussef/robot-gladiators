@@ -164,9 +164,7 @@ var fightOrSkip = function () {
   promptFight = promptFight.toLowerCase();
   if ( promptFight == "fight" || promptFight == "skip") {
 
-  
   // if user picks "skip" confirm and then stop the loop
-  console.log(promptFight)
   if (promptFight === "skip" || promptFight === "SKIP") {
     // confirm user wants to skip
     var confirmSkip = window.confirm("Are you sure you'd like to quit?");
